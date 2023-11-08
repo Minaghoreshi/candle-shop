@@ -53,3 +53,12 @@ export const MainSection = styled.div`
     }
   }
 `;
+export const AvailableProduct = (
+  <div className="ProductCard">
+    <img src="/img/bluberry.png" alt="bluberyy" />
+    <div className="ProductDetails">
+      <span className="product__detail__title">Spcied Mint</span>
+      <span className="product__detail__price">99$</span>
+    </div>
+  </div>
+);
