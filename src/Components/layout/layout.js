@@ -6,7 +6,6 @@ import { Main } from "../Main";
 import { Footer } from "../Footer";
 import { AddToCartModal, receiptModal, AddInfoModal } from "../UI";
 import { CheckoutModalContext } from "../../Context/checkout-modal";
-
 function Layout() {
   const { addModalState } = useContext(AddToCartModalContext);
   const { checkoutModalState } = useContext(CheckoutModalContext);

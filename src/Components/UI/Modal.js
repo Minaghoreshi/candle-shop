@@ -6,6 +6,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { AddToCartModalContext } from "../../Context/add-to-cart-modal";
 import { useContext } from "react";
 import { CheckoutModalContext } from "../../Context/checkout-modal";
+import { ProductContext } from "../../Context/Product-context";
 
 const ProductModal = styled.div`
   width: 100%;
@@ -243,8 +244,16 @@ const ProductModal = styled.div`
   }
 `;
 export const AddToCartModal = () => {
+  const { products, productsDispatch } = useContext(ProductContext);
+
   const { addModalState, addModalDispatch } = useContext(AddToCartModalContext);
-  // console.log(isOpen);
+  //find the selected product
+  const selectedProduct = products.find((p) => {
+    return p.id === addModalState.productId;
+  });
+  console.log(selectedProduct);
+
+  //function for closing modal by clicking on document
   const modalClose = (e) => {
     if (e.target.id === "modal-overlay") {
       addModalDispatch({ type: "CLOSE_MODAL" });
@@ -267,22 +276,17 @@ export const AddToCartModal = () => {
           <span className="shipping">FREE SHIPPING</span>
         </div>
         <div className="modal__left_section">
-          <span className="price">99$</span>
+          <span className="price">{selectedProduct.price}</span>
           <div className="description">
             {" "}
-            <span>
-              Wax: Top grade Soy wax that delivers a smoke less, consistent burn
-            </span>
-            <span>
-              {" "}
-              Fragrance: Premium quality ingredients with natural essential oils
-            </span>
+            <span>Wax: {selectedProduct.wax}</span>
+            <span> Fragrance: {selectedProduct.Frequncy}</span>
             <span>
               Burning Time: 70-75 hours Dimension: 10cm x 5cm Weight: 400g{" "}
             </span>
           </div>
           <span className="quantity">Quantity</span>
-          <Counter />
+          <Counter amount={selectedProduct.order} />
           <Button>
             {" "}
             <AiOutlineShoppingCart /> Add to cart

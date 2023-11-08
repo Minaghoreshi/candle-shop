@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useContext } from "react";
+import { ProductContext } from "../../Context/Product-context";
 import { AddToCartModalContext } from "../../Context/add-to-cart-modal";
 export const MainSection = styled.div`
   width: 100%;
@@ -57,20 +58,26 @@ export const MainSection = styled.div`
 
 export const AvailableProduct = (props) => {
   const { addModalState, addModalDispatch } = useContext(AddToCartModalContext);
+  const { products, productsDispatch } = useContext(ProductContext);
 
   return (
-    <div
-      className="ProductCard"
-      onClick={() => {
-        addModalDispatch({ type: "OPEN_MODAL" });
-      }}
-    >
-      <img src="/img/bluberry.png" alt="bluberyy" />
-      <div className="ProductDetails">
-        <span className="product__detail__title">Spcied Mint</span>
-        <span className="product__detail__price">99$</span>
-      </div>
-    </div>
+    <>
+      {products.map((product) => (
+        <div
+          key={product.id}
+          className="ProductCard"
+          onClick={() => {
+            addModalDispatch({ type: "OPEN_MODAL", payload: product.id });
+          }}
+        >
+          <img src={product.url} alt={product.name} />
+          <div className="ProductDetails">
+            <span className="product__detail__title">{product.name}</span>
+            <span className="product__detail__price">${product.price}</span>
+          </div>
+        </div>
+      ))}
+    </>
   );
 };
 // export const AvailableProduct = (

@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { createContext, useContext, useEffect } from "react";
+import { ProductContext } from "../../Context/Product-context";
 import { CheckoutModalContext } from "../../Context/checkout-modal";
 import {
   MainSection,
@@ -11,14 +12,17 @@ import {
 export function Main() {
   const { checkoutModalState, checkoutDispatch } =
     useContext(CheckoutModalContext);
-  console.log(checkoutModalState);
+  const { products, productsDispatch } = useContext(ProductContext);
+  // useEffect(() => {
+  //   productsDispatch({ type: "GET_PRODUCTS" });
+  // }, []);
+  // console.log(products);
   return (
     <MainSection>
       <div className="Products">
         <span className="product__section__title">Products</span>
         <span>Order it for you or for your beloved ones </span>
         <div className="ProductCardSection">
-          <AvailableProduct />
           <AvailableProduct />
         </div>
       </div>

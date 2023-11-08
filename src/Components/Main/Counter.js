@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
+import { SelectedProductContext } from "../../Context/selected-product-context";
 const CounterWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -19,6 +20,9 @@ const CounterWrapper = styled.div`
 `;
 export function Counter() {
   const [count, setCounter] = useState(0);
+  const { selected, selectedDispatch } = useContext(SelectedProductContext);
+  console.log(selected);
+
   return (
     <CounterWrapper>
       <span>+</span>
@@ -28,7 +32,7 @@ export function Counter() {
           setCounter((prevCounter) => prevCounter + 1);
         }}
       >
-        {count}
+        {selected.order ? selected.order : 0}
       </span>
       <span
         onClick={() => {
