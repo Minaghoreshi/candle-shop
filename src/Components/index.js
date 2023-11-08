@@ -2,4 +2,5 @@
 // export * from "./Main";
 export * from "./Header";
 export * from "./ProductCover";
-// export * from "./Main";
+export * from "./Main";
+export * from "./Footer";

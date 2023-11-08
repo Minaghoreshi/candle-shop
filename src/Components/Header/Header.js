@@ -1,23 +1,22 @@
 import React from "react";
-import { Navbar, NavList, NavIcons, NavLogoSection, NavLogo } from "../UI"; // Use the same names you exported
+import { Navbar } from "../UI"; // Use the same names you exported
 import { FaRegUser } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 export function Header() {
   return (
     <Navbar>
-      <NavLogoSection>
-        <NavLogo></NavLogo>
-        <span>CandleLeaf</span>
-      </NavLogoSection>
-      <NavList>
+      <div className="NavLogoSection">
+        <img src="/img/logo.png" alt="logo" />
+      </div>
+      <ul className="NavList">
         <li>Discovery</li>
         <li>About</li>
         <li>Contact Us</li>
-      </NavList>
-      <NavIcons>
+      </ul>
+      <div className="NavIcons">
         <FaRegUser />
         <AiOutlineShoppingCart />
-      </NavIcons>
+      </div>
     </Navbar>
   );
 }
