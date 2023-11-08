@@ -62,7 +62,6 @@ export const AvailableProduct = (props) => {
     <div
       className="ProductCard"
       onClick={() => {
-        console.log(addModalState);
         addModalDispatch({ type: "OPEN_MODAL" });
       }}
     >

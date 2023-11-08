@@ -5,6 +5,7 @@ import { Button } from "./Button";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { AddToCartModalContext } from "../../Context/add-to-cart-modal";
 import { useContext } from "react";
+import { CheckoutModalContext } from "../../Context/checkout-modal";
 
 const ProductModal = styled.div`
   width: 100%;
@@ -294,22 +295,36 @@ export const AddToCartModal = () => {
 // export const AddToCartModal = (
 
 // );
-export const addInfoModal = (
-  <ProductModal>
-    <div className="info">
-      <form>
-        <img src="/img/logo.png" alt="logo"></img>
-        <span>Buyer Info</span>
-        <input placeholder="Name" name="name" />{" "}
-        <input placeholder="Email" name="email" />
-        <input placeholder="Address" name="address" />
-      </form>
-      <Button type="submit" variant="small">
-        Checkout{" "}
-      </Button>
-    </div>
-  </ProductModal>
-);
+export const AddInfoModal = () => {
+  const { checkoutModalState, checkoutDispatch } =
+    useContext(CheckoutModalContext);
+  const modalClose = (e) => {
+    if (e.target.id === "modal-overlay") {
+      checkoutDispatch({ type: "CLOSE_MODAL" });
+    }
+  };
+  useEffect(() => {
+    if (checkoutDispatch) {
+      document.addEventListener("click", modalClose);
+    }
+  }, [checkoutDispatch]);
+  return (
+    <ProductModal id="modal-overlay">
+      <div className="info">
+        <form>
+          <img src="/img/logo.png" alt="logo"></img>
+          <span>Buyer Info</span>
+          <input placeholder="Name" name="name" />{" "}
+          <input placeholder="Email" name="email" />
+          <input placeholder="Address" name="address" />
+        </form>
+        <Button type="submit" variant="small">
+          Checkout{" "}
+        </Button>
+      </div>
+    </ProductModal>
+  );
+};
 
 export const receiptModal = (
   <ProductModal>

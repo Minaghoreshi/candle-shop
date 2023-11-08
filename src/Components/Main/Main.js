@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useContext } from "react";
+import { CheckoutModalContext } from "../../Context/checkout-modal";
 import {
   MainSection,
   Button,
@@ -9,6 +9,9 @@ import {
 } from "../UI";
 
 export function Main() {
+  const { checkoutModalState, checkoutDispatch } =
+    useContext(CheckoutModalContext);
+  console.log(checkoutModalState);
   return (
     <MainSection>
       <div className="Products">
@@ -24,7 +27,15 @@ export function Main() {
         {UserOrderCart} {UserOrderCart}{" "}
         <div className="total__order__section">
           <span>Sub-Total : 457 $</span>
-          <Button variant="small">Checkout</Button>
+          <Button
+            onClick={() => {
+              console.log(checkoutModalState);
+              checkoutDispatch({ type: "OPEN_MODAL" });
+            }}
+            variant="small"
+          >
+            Checkout
+          </Button>
         </div>
       </CartItemSection>
     </MainSection>
