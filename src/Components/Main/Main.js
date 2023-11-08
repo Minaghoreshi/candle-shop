@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   MainSection,
   Button,
@@ -6,6 +7,7 @@ import {
   UserOrderCart,
   AvailableProduct,
 } from "../UI";
+
 export function Main() {
   return (
     <MainSection>
@@ -13,7 +15,8 @@ export function Main() {
         <span className="product__section__title">Products</span>
         <span>Order it for you or for your beloved ones </span>
         <div className="ProductCardSection">
-          {AvailableProduct} {AvailableProduct}{" "}
+          <AvailableProduct />
+          <AvailableProduct />
         </div>
       </div>
       <CartItemSection>

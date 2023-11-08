@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 export const FooterSection = styled.div`
   width: 100%;
-  height: 383px;
+  /* height: 383px; */
   display: flex;
   flex-direction: column;
   .footer__gray__section {
-    background-color: ##e5e5e5;
+    background-color: #e5e5e5;
     padding: 25px 165px 27px 165px;
     display: flex;
     justify-content: space-between;
@@ -16,7 +16,7 @@ export const FooterSection = styled.div`
   }
   .footer__black_section {
     background-color: #272727;
-    height: 80%;
+    /* height: 80%; */
     padding: 60px 165px 115px 165px;
     .footer_info {
       margin-top: 16px;

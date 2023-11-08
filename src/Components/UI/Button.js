@@ -15,4 +15,6 @@ export const Button = styled.button`
   font-weight: 500;
   color: white;
   border: none;
+  gap: 10px;
+  border-radius: 4px;
 `;

@@ -1,5 +1,6 @@
 import styled from "styled-components";
-
+import { useContext } from "react";
+import { AddToCartModalContext } from "../../Context/add-to-cart-modal";
 export const MainSection = styled.div`
   width: 100%;
   display: flex;
@@ -53,12 +54,32 @@ export const MainSection = styled.div`
     }
   }
 `;
-export const AvailableProduct = (
-  <div className="ProductCard">
-    <img src="/img/bluberry.png" alt="bluberyy" />
-    <div className="ProductDetails">
-      <span className="product__detail__title">Spcied Mint</span>
-      <span className="product__detail__price">99$</span>
+
+export const AvailableProduct = (props) => {
+  const { addModalState, addModalDispatch } = useContext(AddToCartModalContext);
+
+  return (
+    <div
+      className="ProductCard"
+      onClick={() => {
+        console.log(addModalState);
+        addModalDispatch({ type: "OPEN_MODAL" });
+      }}
+    >
+      <img src="/img/bluberry.png" alt="bluberyy" />
+      <div className="ProductDetails">
+        <span className="product__detail__title">Spcied Mint</span>
+        <span className="product__detail__price">99$</span>
+      </div>
     </div>
-  </div>
-);
+  );
+};
+// export const AvailableProduct = (
+//   <div className="ProductCard">
+//     <img src="/img/bluberry.png" alt="bluberyy" />
+//     <div className="ProductDetails">
+//       <span className="product__detail__title">Spcied Mint</span>
+//       <span className="product__detail__price">99$</span>
+//     </div>
+//   </div>
+// );

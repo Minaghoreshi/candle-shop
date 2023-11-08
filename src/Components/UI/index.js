@@ -4,3 +4,4 @@ export * from "./Button";
 export * from "./MainSection";
 
 export * from "./CartItem";
+export * from "./Modal";

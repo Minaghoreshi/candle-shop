@@ -1,14 +1,12 @@
 import "./App.css";
+import Layout from "./Components/layout/layout";
+import { AddToCartModalProvider } from "./Context/add-to-cart-modal";
 
-import { Header, ProductCover, Main, Footer } from "./Components";
 function App() {
   return (
-    <div className="app">
-      <Header />
-      <ProductCover />
-      <Main />
-      <Footer />
-    </div>
+    <AddToCartModalProvider>
+      <Layout />
+    </AddToCartModalProvider>
   );
 }
 
