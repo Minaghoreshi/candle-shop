@@ -7,6 +7,7 @@ import { AddToCartModalContext } from "../../Context/add-to-cart-modal";
 import { useContext } from "react";
 import { CheckoutModalContext } from "../../Context/checkout-modal";
 import { ProductContext } from "../../Context/Product-context";
+import { SelectedProductContext } from "../../Context/selected-product-context";
 
 const ProductModal = styled.div`
   width: 100%;
@@ -245,13 +246,11 @@ const ProductModal = styled.div`
 `;
 export const AddToCartModal = () => {
   const { products, productsDispatch } = useContext(ProductContext);
+  const { selected, selectedDispatch } = useContext(SelectedProductContext);
 
   const { addModalState, addModalDispatch } = useContext(AddToCartModalContext);
   //find the selected product
-  const selectedProduct = products.find((p) => {
-    return p.id === addModalState.productId;
-  });
-  console.log(selectedProduct);
+  const selectedProduct = selected.currentSelected;
 
   //function for closing modal by clicking on document
   const modalClose = (e) => {
@@ -262,13 +261,43 @@ export const AddToCartModal = () => {
   useEffect(() => {
     if (addModalState) {
       document.addEventListener("click", modalClose);
+      console.log(selected.currentSelected);
+      // selectedDispatch({
+      //   type: "ADD_TO_SELECTED_PRODUCTS",
+      //   payload: selectedProduct,
+      // });
+      // console.log(selected.selectedProducts);
     }
   }, [addModalState]);
+  // console.log(selected);
+
+  //handle add to cart click
+  const addtocart = (product) => {
+    addModalDispatch({ type: "CLOSE_MODAL" });
+
+    const allProducts = selected.selectedProducts;
+    const existingItem = allProducts.find((pr) => pr.id === product.id);
+    if (existingItem && product.order !== 0) {
+      const updatedProduct = {
+        ...existingItem,
+        order: product.order,
+      };
+      selectedDispatch({
+        type: "UPDATE_SELECTED_PRODUCT",
+        payload: updatedProduct,
+      });
+    } else if (!existingItem && product.order !== 0) {
+      selectedDispatch({
+        type: "ADD_TO_SELECTED_PRODUCTS",
+        payload: product,
+      });
+    }
+  };
   return (
     <ProductModal id="modal-overlay">
       <div className="modalContent">
         <div className="modal__right_section">
-          <img src="/img/bluberry.png" alt="product" />
+          <img src={selectedProduct.url} alt="product" />
           <p>
             All hand-made with natural soy wax, Candleaf is made for your
             pleasure moments.
@@ -286,10 +315,15 @@ export const AddToCartModal = () => {
             </span>
           </div>
           <span className="quantity">Quantity</span>
-          <Counter amount={selectedProduct.order} />
+          <Counter />
           <Button>
             {" "}
-            <AiOutlineShoppingCart /> Add to cart
+            <AiOutlineShoppingCart
+              onClick={() => {
+                addtocart(selectedProduct);
+              }}
+            />{" "}
+            Add to cart
           </Button>
         </div>
       </div>

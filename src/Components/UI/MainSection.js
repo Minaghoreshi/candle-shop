@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useContext } from "react";
 import { ProductContext } from "../../Context/Product-context";
 import { AddToCartModalContext } from "../../Context/add-to-cart-modal";
+import { SelectedProductContext } from "../../Context/selected-product-context";
 export const MainSection = styled.div`
   width: 100%;
   display: flex;
@@ -59,6 +60,7 @@ export const MainSection = styled.div`
 export const AvailableProduct = (props) => {
   const { addModalState, addModalDispatch } = useContext(AddToCartModalContext);
   const { products, productsDispatch } = useContext(ProductContext);
+  const { selected, selectedDispatch } = useContext(SelectedProductContext);
 
   return (
     <>
@@ -67,7 +69,12 @@ export const AvailableProduct = (props) => {
           key={product.id}
           className="ProductCard"
           onClick={() => {
+            selectedDispatch({
+              type: "SET_CURRENT_SELECTED",
+              payload: product,
+            });
             addModalDispatch({ type: "OPEN_MODAL", payload: product.id });
+            console.log(product);
           }}
         >
           <img src={product.url} alt={product.name} />

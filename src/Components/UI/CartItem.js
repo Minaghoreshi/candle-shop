@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { Counter } from "../Main/Counter";
+import { SelectedProductContext } from "../../Context/selected-product-context";
+import { useContext } from "react";
 export const CartItemSection = styled.div`
   display: flex;
   gap: 80px;
@@ -59,19 +61,42 @@ export const CartItemSection = styled.div`
     }
   }
 `;
-export const UserOrderCart = (
-  <div className="OrderCart">
-    <div className="CartItemImage">
-      <img src="/img/bluberry.png" alt="bluberyy"></img>
-    </div>
-    <div className="details">
-      <span>bluberry</span>
-      <div className="priceDetails">
-        <span>$99</span>
-        <Counter />
-        <span variant="orderDetails">Total: 1345 $</span>
+
+// export const UserOrderCart = (
+//   <div className="OrderCart">
+//     <div className="CartItemImage">
+//       <img src="/img/bluberry.png" alt="bluberyy"></img>
+//     </div>
+//     <div className="details">
+//       <span>bluberry</span>
+//       <div className="priceDetails">
+//         <span>$99</span>
+//         <Counter />
+//         <span variant="orderDetails">Total: 1345 $</span>
+//       </div>
+//       <span className="remove">Remove</span>
+//     </div>
+//   </div>
+// );
+export const UserOrderCart = (props) => {
+  const { selected, selectedDispatch } = useContext(SelectedProductContext);
+  const allorders = selected.selectedProducts;
+  return (
+    <>
+      <div className="OrderCart">
+        <div className="CartItemImage">
+          <img src="/img/bluberry.png" alt="bluberyy"></img>
+        </div>
+        <div className="details">
+          <span>bluberry</span>
+          <div className="priceDetails">
+            <span>$99</span>
+            <Counter />
+            <span variant="orderDetails">Total: 1345 $</span>
+          </div>
+          <span className="remove">Remove</span>
+        </div>
       </div>
-      <span className="remove">Remove</span>
-    </div>
-  </div>
-);
+    </>
+  );
+};

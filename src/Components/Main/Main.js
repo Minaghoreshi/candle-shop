@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect } from "react";
 import { ProductContext } from "../../Context/Product-context";
 import { CheckoutModalContext } from "../../Context/checkout-modal";
+import { SelectedProductContext } from "../../Context/selected-product-context";
 import {
   MainSection,
   Button,
@@ -13,6 +14,8 @@ export function Main() {
   const { checkoutModalState, checkoutDispatch } =
     useContext(CheckoutModalContext);
   const { products, productsDispatch } = useContext(ProductContext);
+  const { selected, selectedDispatch } = useContext(SelectedProductContext);
+
   // useEffect(() => {
   //   productsDispatch({ type: "GET_PRODUCTS" });
   // }, []);
@@ -28,7 +31,8 @@ export function Main() {
       </div>
       <CartItemSection>
         <span className="cartItem__section__title">Cart Items</span>
-        {UserOrderCart} {UserOrderCart}{" "}
+        {/* {UserOrderCart} {UserOrderCart}{" "} */}
+        <UserOrderCart />
         <div className="total__order__section">
           <span>Sub-Total : 457 $</span>
           <Button

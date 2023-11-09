@@ -21,26 +21,34 @@ const CounterWrapper = styled.div`
 export function Counter() {
   const [count, setCounter] = useState(0);
   const { selected, selectedDispatch } = useContext(SelectedProductContext);
-  console.log(selected);
+  const currentProduct = selected.currentSelected;
 
+  const handleIncrement = () => {
+    currentProduct.order += 1;
+    selectedDispatch({
+      type: "SET_CURRENT_SELECTED",
+      payload: currentProduct,
+      // quantity: 1, // Increment the order by 1
+    });
+  };
+
+  const handleDecrement = () => {
+    currentProduct.order -= 1;
+    selectedDispatch({
+      type: "SET_CURRENT_SELECTED",
+      payload: currentProduct,
+      // quantity: 1, // Increment the order by 1
+    });
+  };
   return (
     <CounterWrapper>
-      <span>+</span>
-      <span
-        className="counter"
-        onClick={() => {
-          setCounter((prevCounter) => prevCounter + 1);
-        }}
-      >
-        {selected.order ? selected.order : 0}
+      <span className="counter" onClick={handleIncrement}>
+        +
       </span>
-      <span
-        onClick={() => {
-          setCounter((prevCounter) => prevCounter - 1);
-        }}
-      >
-        -
+      <span>
+        {currentProduct && currentProduct.order ? currentProduct.order : 0}
       </span>
+      <span onClick={handleDecrement}>-</span>
     </CounterWrapper>
   );
 }

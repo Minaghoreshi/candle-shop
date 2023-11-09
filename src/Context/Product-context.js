@@ -14,7 +14,6 @@ export const ProductContextProvider = (props) => {
         productsDispatch({ type: "GET_PRODUCTS", payload: response.data })
       );
   }, []);
-  console.log(products);
   return (
     <ProductContext.Provider value={{ products, productsDispatch }}>
       {props.children}
