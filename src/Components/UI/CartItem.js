@@ -107,7 +107,6 @@ export const UserOrderCart = (props) => {
       });
     }
   };
-  console.log(allorders);
   return (
     <>
       {" "}

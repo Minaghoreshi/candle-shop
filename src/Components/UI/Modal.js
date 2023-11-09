@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Counter } from "../Main/Counter";
 import { Button } from "./Button";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { CheckoutModalContext } from "../../Context/checkout-modal";
 import { ProductContext } from "../../Context/Product-context";
 import { SelectedProductContext } from "../../Context/selected-product-context";
-
+import { ReceiptModalContext } from "../../Context/receipt-modal-context";
 const ProductModal = styled.div`
   width: 100%;
   height: 100%;
@@ -335,27 +335,86 @@ export const AddToCartModal = () => {
 export const AddInfoModal = () => {
   const { checkoutModalState, checkoutDispatch } =
     useContext(CheckoutModalContext);
+  const { receiptModalState, receiptModalDispatch } =
+    useContext(ReceiptModalContext);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    address: "",
+  });
+
   const modalClose = (e) => {
     if (e.target.id === "modal-overlay") {
       checkoutDispatch({ type: "CLOSE_MODAL" });
     }
   };
+
   useEffect(() => {
     if (checkoutDispatch) {
       document.addEventListener("click", modalClose);
     }
   }, [checkoutDispatch]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleCheckoutClick = (e) => {
+    e.preventDefault();
+
+    // Check if all inputs are filled
+    const isValid =
+      formData.name.trim() !== "" &&
+      formData.email.trim() !== "" &&
+      formData.address.trim() !== "";
+
+    if (isValid) {
+      // Add the form data to the state
+      const buyerInfo = {
+        name: formData.name,
+        email: formData.email,
+        address: formData.address,
+      };
+
+      console.log("Buyer Info:", buyerInfo);
+      checkoutDispatch({ type: "CLOSE_MODAL" });
+      receiptModalDispatch({ type: "OPEN_MODAL" });
+    } else {
+      console.log("Please fill in all required fields");
+    }
+  };
+
   return (
     <ProductModal id="modal-overlay">
       <div className="info">
         <form>
           <img src="/img/logo.png" alt="logo"></img>
           <span>Buyer Info</span>
-          <input placeholder="Name" name="name" />{" "}
-          <input placeholder="Email" name="email" />
-          <input placeholder="Address" name="address" />
+          <input
+            required
+            placeholder="Name"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+          />
+          <input
+            required
+            placeholder="Email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+          />
+          <input
+            required
+            placeholder="Address"
+            name="address"
+            value={formData.address}
+            onChange={handleInputChange}
+          />
         </form>
-        <Button type="submit" variant="small">
+        <Button onClick={handleCheckoutClick} type="submit" variant="small">
           Checkout{" "}
         </Button>
       </div>

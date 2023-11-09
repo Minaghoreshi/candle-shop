@@ -37,7 +37,6 @@ export function Main() {
           <span>Sub-Total : 457 $</span>
           <Button
             onClick={() => {
-              console.log(checkoutModalState);
               checkoutDispatch({ type: "OPEN_MODAL" });
             }}
             variant="small"
