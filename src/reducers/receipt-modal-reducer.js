@@ -5,9 +5,9 @@ export const actionTypes = {
 export const receiptModalReducer = (state, action) => {
   switch (action.type) {
     case actionTypes.OPEN_MODAL:
-      return { ...state, isOpen: true, productId: action.payload };
+      return { isOpen: true };
     case actionTypes.CLOSE_MODAL:
-      return { ...state, isOpen: false, productId: null };
+      return { isOpen: false };
 
     default:
       return state;

@@ -2,11 +2,14 @@ import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 import { Counter } from "../Main/Counter";
 import { Button } from "./Button";
+import Toastify from "toastify-js";
+
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { AddToCartModalContext } from "../../Context/add-to-cart-modal";
 import { useContext } from "react";
 import { CheckoutModalContext } from "../../Context/checkout-modal";
 import { ProductContext } from "../../Context/Product-context";
+import { BuyerInfoContext } from "../../Context/buye-info-context";
 import { SelectedProductContext } from "../../Context/selected-product-context";
 import { ReceiptModalContext } from "../../Context/receipt-modal-context";
 const ProductModal = styled.div`
@@ -176,6 +179,7 @@ const ProductModal = styled.div`
       display: flex;
       flex-direction: column;
       padding: 58px 41px;
+      gap: ;
       .order__details__total,
       .order__details__total__paid {
         margin-top: 13px;
@@ -211,7 +215,7 @@ const ProductModal = styled.div`
       .order__cart {
         display: flex;
         gap: 38px;
-        margin-bottom: 132px;
+
         .order__details {
           display: flex;
           flex-direction: column;
@@ -337,18 +341,25 @@ export const AddInfoModal = () => {
     useContext(CheckoutModalContext);
   const { receiptModalState, receiptModalDispatch } =
     useContext(ReceiptModalContext);
-
+  const { buyerInfo, buyerInfoDispatch } = useContext(BuyerInfoContext);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     address: "",
   });
-
+  const [isValid, setIsValid] = useState(true);
   const modalClose = (e) => {
     if (e.target.id === "modal-overlay") {
       checkoutDispatch({ type: "CLOSE_MODAL" });
     }
   };
+  useEffect(() => {
+    if (buyerInfo) {
+      checkoutDispatch({ type: "CLOSE_MODAL" });
+      receiptModalDispatch({ type: "OPEN_MODAL" });
+      console.log(receiptModalState);
+    }
+  }, [buyerInfo, checkoutDispatch, receiptModalDispatch]);
 
   useEffect(() => {
     if (checkoutDispatch) {
@@ -377,17 +388,18 @@ export const AddInfoModal = () => {
         email: formData.email,
         address: formData.address,
       };
-
-      console.log("Buyer Info:", buyerInfo);
-      checkoutDispatch({ type: "CLOSE_MODAL" });
-      receiptModalDispatch({ type: "OPEN_MODAL" });
+      setIsValid(true);
+      // checkoutDispatch({ type: "CLOSE_MODAL" });
+      buyerInfoDispatch({ type: "SET_INFO", payload: buyerInfo });
+      // receiptModalDispatch({ type: "OPEN_MODAL" });
     } else {
-      console.log("Please fill in all required fields");
+      setIsValid(false);
+      console.log("input not complete");
     }
   };
 
   return (
-    <ProductModal id="modal-overlay">
+    <ProductModal id="modal-overlay" isValid={isValid}>
       <div className="info">
         <form>
           <img src="/img/logo.png" alt="logo"></img>
@@ -421,63 +433,79 @@ export const AddInfoModal = () => {
     </ProductModal>
   );
 };
+export const ReceiptModal = () => {
+  const { buyerInfo, buyerInfoDispatch } = useContext(BuyerInfoContext);
+  const { selected, selectedDispatch } = useContext(SelectedProductContext);
+  console.log(buyerInfo);
+  const orders = selected.selectedProducts;
+  const totalPrice = orders.reduce((acc, item) => {
+    // Multiply order and price for each object and add to accumulator
+    return acc + item.order * item.price;
+  }, 0);
+  console.log(buyerInfo);
+  return (
+    <ProductModal>
+      <div className="reciept">
+        <div className="gray-section">
+          {" "}
+          <img src="/img/logo.png" alt="logo" />
+          <img className="check" src="/img/CheckCircle.png" alt="check" />
+          <span className="confirm__text">Payement Confirm</span>
+          <span className="order__number">order number</span>
+          <div className="buyer__info">
+            <div className="info__section">
+              <span>Name:</span>
+              <span>{buyerInfo.name}</span>
+            </div>{" "}
+            <div className="info__section">
+              <span>Email:</span>
+              <span>{buyerInfo.email}</span>
+            </div>{" "}
+            <div className="info__section">
+              <span>Address:</span>
+              <span>{buyerInfo.address}</span>
+            </div>
+          </div>
+          <Button variant="medium">Back to Shopping</Button>
+          <span className="print">Print Reciept</span>
+        </div>{" "}
+        <div className="white-section">
+          {orders.map((order) => (
+            <div className="order__cart" key={order.id}>
+              <div className="product-img">
+                {" "}
+                <img
+                  // style={{ width: "100px" }}
+                  src={order.url}
+                  alt="product"
+                />
+              </div>
+              <div className="order__details">
+                <span>{order.name}</span>{" "}
+                <span>{Number(order.order) * Number(order.price)}$</span>
+              </div>
+            </div>
+          ))}
+          {/* <div className="order__total"></div> */}
+          <hr></hr>
+          <div className="order__details__total">
+            <span>Subtotal</span>
+            <span>$ {totalPrice}</span>
+          </div>
+          <div className="order__details__total">
+            <span>Shipping</span>
+            <span>Free Shipping</span>
+          </div>{" "}
+          <hr></hr>{" "}
+          <div className="order__details__total__paid">
+            <span>Paid</span>
+            <span>$ {totalPrice}</span>
+          </div>{" "}
+        </div>{" "}
+      </div>
+    </ProductModal>
+  );
+};
+// export const receiptModal = (
 
-export const receiptModal = (
-  <ProductModal>
-    <div className="reciept">
-      <div className="gray-section">
-        {" "}
-        <img src="/img/logo.png" alt="logo" />
-        <img className="check" src="/img/CheckCircle.png" alt="check" />
-        <span className="confirm__text">Payement Confirm</span>
-        <span className="order__number">order number</span>
-        <div className="buyer__info">
-          <div className="info__section">
-            <span>Name:</span>
-            <span>ksdufkdfhsdfk</span>
-          </div>{" "}
-          <div className="info__section">
-            <span>Name:</span>
-            <span>ksdufkdfhsdfk</span>
-          </div>{" "}
-          <div className="info__section">
-            <span>Name:</span>
-            <span>ksdufkdfhsdfk</span>
-          </div>
-        </div>
-        <Button variant="medium">Back to Shopping</Button>
-        <span className="print">Print Reciept</span>
-      </div>{" "}
-      <div className="white-section">
-        <div className="order__cart">
-          <div className="product-img">
-            {" "}
-            <img
-              // style={{ width: "100px" }}
-              src="/img/milky.png"
-              alt="product"
-            />
-          </div>
-          <div className="order__details">
-            <span>Product Title</span> <span>19$</span>
-          </div>
-        </div>
-        {/* <div className="order__total"></div> */}
-        <hr></hr>
-        <div className="order__details__total">
-          <span>Subtotal</span>
-          <span>$ 19.98</span>
-        </div>
-        <div className="order__details__total">
-          <span>Shipping</span>
-          <span>Free Shipping</span>
-        </div>{" "}
-        <hr></hr>{" "}
-        <div className="order__details__total__paid">
-          <span>Paid</span>
-          <span>19$</span>
-        </div>{" "}
-      </div>{" "}
-    </div>
-  </ProductModal>
-);
+// );

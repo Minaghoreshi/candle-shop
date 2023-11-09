@@ -5,7 +5,7 @@ export const BuyerInfoProvider = (props) => {
   const [buyerInfo, buyerInfoDispatch] = useReducer(buyerInfoReducer, null);
 
   return (
-    <BuyerInfoContext.Provider valu={{ buyerInfo, buyerInfoDispatch }}>
+    <BuyerInfoContext.Provider value={{ buyerInfo, buyerInfoDispatch }}>
       {props.children}
     </BuyerInfoContext.Provider>
   );

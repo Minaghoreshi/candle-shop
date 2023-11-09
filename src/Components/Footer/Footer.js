@@ -59,22 +59,22 @@ export function Footer() {
             </span>
           </div>
           <div className="info_column">
-            <spsn>Discover</spsn>
-            <spsn>New Season</spsn>
-            <spsn>Most Searced</spsn>
-            <spsn>Most Selled</spsn>
+            <span>Discover</span>
+            <span>New Season</span>
+            <span>Most Searced</span>
+            <span>Most Selled</span>
           </div>{" "}
           <div className="info_column">
-            <spsn>About</spsn>
-            <spsn>Help </spsn>
-            <spsn>Shipping</spsn>
-            <spsn>Affiliate</spsn>
+            <span>About</span>
+            <span>Help </span>
+            <span>Shipping</span>
+            <span>Affiliate</span>
           </div>{" "}
           <div className="info_column">
-            <spsn>Info</spsn>
-            <spsn>Contact us</spsn>
-            <spsn>Privacy Policies</spsn>
-            <spsn>Terms & Conditions</spsn>
+            <span>Info</span>
+            <span>Contact us</span>
+            <span>Privacy Policies</span>
+            <span>Terms & Conditions</span>
           </div>
         </div>
       </div>
