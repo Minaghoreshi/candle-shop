@@ -316,14 +316,13 @@ export const AddToCartModal = () => {
           </div>
           <span className="quantity">Quantity</span>
           <Counter />
-          <Button>
+          <Button
+            onClick={() => {
+              addtocart(selectedProduct);
+            }}
+          >
             {" "}
-            <AiOutlineShoppingCart
-              onClick={() => {
-                addtocart(selectedProduct);
-              }}
-            />{" "}
-            Add to cart
+            <AiOutlineShoppingCart /> Add to cart
           </Button>
         </div>
       </div>

@@ -3,6 +3,7 @@ const actionTypes = {
   ADD_TO_SELECTED_PRODUCTS: "ADD_TO_SELECTED_PRODUCTS",
   REMOVE_FROM_SELECTED_PRODUCTS: "REMOVE_FROM_SELECTED_PRODUCTS",
   UPDATE_SELECTED_PRODUCT: "UPDATE_SELECTED_PRODUCT",
+  REMOVE_SELECTED_PRODUCT: "REMOVE_SELECTED_PRODUCT",
 };
 
 export const selectedProductReducer = (state, action) => {
@@ -29,7 +30,13 @@ export const selectedProductReducer = (state, action) => {
         ...state,
         selectedProducts: updatedProducts,
       };
-
+    case actionTypes.REMOVE_SELECTED_PRODUCT:
+      return {
+        ...state,
+        selectedProducts: state.selectedProducts.filter(
+          (product) => product.id !== action.payload.id
+        ),
+      };
     default:
       return state;
   }

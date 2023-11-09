@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Counter } from "../Main/Counter";
 import { SelectedProductContext } from "../../Context/selected-product-context";
 import { useContext } from "react";
+import { CounterWrapper } from "../Main/Counter";
 export const CartItemSection = styled.div`
   display: flex;
   gap: 80px;
@@ -81,22 +82,70 @@ export const CartItemSection = styled.div`
 export const UserOrderCart = (props) => {
   const { selected, selectedDispatch } = useContext(SelectedProductContext);
   const allorders = selected.selectedProducts;
+
+  const handleIncrement = (order) => {
+    order.order += 1;
+    selectedDispatch({
+      type: "SET_CURRENT_SELECTED",
+      payload: order,
+      // quantity: 1, // Increment the order by 1
+    });
+  };
+  const handleDecrement = (order) => {
+    if (order.order > 0) {
+      order.order -= 1;
+      selectedDispatch({
+        type: "SET_CURRENT_SELECTED",
+        payload: order,
+        // quantity: 1, // Increment the order by 1
+      });
+    }
+    if (order.order === 0) {
+      selectedDispatch({
+        type: "REMOVE_SELECTED_PRODUCT",
+        payload: order,
+      });
+    }
+  };
+  console.log(allorders);
   return (
     <>
-      <div className="OrderCart">
-        <div className="CartItemImage">
-          <img src="/img/bluberry.png" alt="bluberyy"></img>
-        </div>
-        <div className="details">
-          <span>bluberry</span>
-          <div className="priceDetails">
-            <span>$99</span>
-            <Counter />
-            <span variant="orderDetails">Total: 1345 $</span>
+      {" "}
+      {allorders.map((order) => (
+        <div className="OrderCart" key={order.id}>
+          <div className="CartItemImage">
+            <img src="/img/bluberry.png" alt="bluberyy"></img>
           </div>
-          <span className="remove">Remove</span>
+          <div className="details">
+            <span>{order.name}</span>
+            <div className="priceDetails">
+              <span>$ {order.price}</span>
+              <CounterWrapper>
+                <span
+                  className="counter"
+                  onClick={() => {
+                    handleIncrement(order);
+                  }}
+                >
+                  +
+                </span>
+                <span>{order.order}</span>
+                <span
+                  onClick={() => {
+                    handleDecrement(order);
+                  }}
+                >
+                  -
+                </span>
+              </CounterWrapper>
+              <span variant="orderDetails">
+                Total: {Number(order.order) * Number(order.price)}
+              </span>
+            </div>
+            <span className="remove">Remove</span>
+          </div>
         </div>
-      </div>
+      ))}
     </>
   );
 };

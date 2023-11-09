@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import { SelectedProductContext } from "../../Context/selected-product-context";
-const CounterWrapper = styled.div`
+export const CounterWrapper = styled.div`
   display: flex;
   justify-content: center;
   gap: 10px;
@@ -33,12 +33,19 @@ export function Counter() {
   };
 
   const handleDecrement = () => {
-    currentProduct.order -= 1;
-    selectedDispatch({
-      type: "SET_CURRENT_SELECTED",
-      payload: currentProduct,
-      // quantity: 1, // Increment the order by 1
-    });
+    if (currentProduct.order > 0) {
+      currentProduct.order -= 1;
+      selectedDispatch({
+        type: "SET_CURRENT_SELECTED",
+        payload: currentProduct,
+      });
+    }
+    if (currentProduct.order === 0) {
+      selectedDispatch({
+        type: "REMOVE_SELECTED_PRODUCT",
+        payload: currentProduct,
+      });
+    }
   };
   return (
     <CounterWrapper>

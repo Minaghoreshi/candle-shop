@@ -74,7 +74,7 @@ export const AvailableProduct = (props) => {
               payload: product,
             });
             addModalDispatch({ type: "OPEN_MODAL", payload: product.id });
-            console.log(product);
+            // console.log(product);
           }}
         >
           <img src={product.url} alt={product.name} />
